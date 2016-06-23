@@ -1,0 +1,82 @@
+<div class='wrapper'>
+  <div class='main'>
+    <h1>Welcome!</h1>
+    <div class='register'>
+      <form action='/users' method='post'>
+        <fieldset>
+          <legend>Register</legend>
+          <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+          <table>
+            <tr>
+              <td>First Name:</td><td><input type='text' name='user[first_name]'></td>
+            </tr>
+            <tr>
+              <td>Last Name:</td><td><input type='text' name='user[last_name]'></td>
+            </tr>
+            <tr>
+              <td>Email:</td><td><input type='text' name='user[email]'></td>
+            </tr>
+            <tr>
+              <td>Location:</td><td><input type='text' name='user[location]'></td>
+            </tr>
+            <tr>
+              <td>State:</td>
+              <td>
+                <select name='user[state]'>
+                  <% @states.each do |state| %>
+                    <option value='<%= state.state_code %>'><%= state.state_name %></option>
+                  <% end %>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Password:</td><td><input type='password' name='user[password]'></td>
+            </tr>
+            <tr>
+              <td colspan='2'>*Password should be at least 8 characters</td>
+            </tr>
+            <tr>
+              <td>Confirm PW:&nbsp;</td><td><input type='password' name='user[password_confirmation]'></td>
+            </tr>
+            <tr>
+              <td colspan='2' align='right'><input type='submit' value='Register'</td>
+            </tr>
+            <% if flash[:errors] %>
+              <tr>
+                <td colspan='2'>
+                  <% flash[:errors].each do |key, value| %>
+                    <span><%= key %>: <%= value[0] %></span><br>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </fieldset>
+      </form>
+    </div>
+    <div class='login'>
+      <form action='/sessions' method='post'>
+        <fieldset>
+          <legend>Login</legend>
+          <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+          <table>
+            <tr>
+              <td>Email:</td><td><input type='text' name='user[email]'></td>
+            </tr>
+            <tr>
+              <td>Password:&nbsp;&nbsp;&nbsp;</td><td><input type='password' name='user[password]'></td>
+            </tr>
+            <tr>
+              <td colspan='2' align='right'><input type='submit' value='Login'></td>
+            </tr>
+            <% if flash[:error] %>
+              <tr>
+                <td colspan='2'><span><%= flash[:error] %></span></td>
+              </tr>
+            <% end %>
+          </table>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

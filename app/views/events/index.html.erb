@@ -1,0 +1,142 @@
+<div class='wrapper'>
+  <div class='main'>
+    <div class='top'>
+      <div class='welcome'>
+        <h1>Welcome, <%= session[:user_name] %>!</h1>
+      </div>
+      <div class='menu'>
+        <a href='/users/<%= session[:user_id] %>'>Edit My Profile</a>&nbsp;&nbsp;
+        <a href='/sessions' data-method='delete'>Logout</a>
+      </div>
+    </div>
+    <div class='within_state'>
+      <h4>Here are some of the events at your state:</h4>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Host</th>
+          <th>Action/Status</th>
+        </tr>
+        <% @events.each do |e| %>
+          <% if e.event_state == @user.state %>
+          <tr>
+            <td><a href='/events/<%= e.id %>'><%= e.event_name %></a></td>
+            <td><%= e.event_date %></td>
+            <td><%= e.event_location %></td>
+            <td><%= e.user.first_name %> <%= e.user.last_name %></td>
+            <td>
+              <% if e.user.id == session[:user_id] %>
+                <a href='/events/<%= e.id %>/edit'><button>Edit</button></a>&nbsp;&nbsp;<a href='/events/<%= e.id %>' data-method='delete'><button>Delete</button></a>
+              <% else %>
+                <% if e.joins.any? {|join| join.user_id == session[:user_id]} %>
+                  <% e.joins.each do |join| %>
+                    <% if join.user_id == session[:user_id] %>
+                      Joining&nbsp;&nbsp;<a href='/joins/<%= join.id %>' data-method='delete'><button>Cancel</button></a>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <form action='/joins' method='post'>
+                    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+                    <input type='hidden' value='<%= e.id %>' name='event_id'>
+                    <input type='submit' value='Join'>
+                  </form>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+    <div class='other_states'>
+      <h4>Here are some of the events on other states:</h4>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>State</th>
+          <th>Host</th>
+          <th>Action/Status</th>
+        </tr>
+        <% @events.each do |e| %>
+          <% if e.event_state != @user.state %>
+          <tr>
+            <td><a href='/events/<%= e.id %>'><%= e.event_name %></td>
+            <td><%= e.event_date %></td>
+            <td><%= e.event_location %></td>
+            <td><%= e.event_state %></td>
+            <td><%= e.user.first_name %> <%= e.user.last_name %></td>
+            <td>
+              <% if e.user.id == session[:user_id] %>
+                <a href='/events/<%= e.id %>/edit'><button>Edit</button></a>&nbsp;&nbsp;<a href='/events/<%= e.id %>' data-method='delete'><button>Delete</button></a>
+              <% else %>
+                <% if e.joins.any? {|join| join.user_id == session[:user_id]} %>
+                  <% e.joins.each do |join| %>
+                    <% if join.user_id == session[:user_id] %>
+                      Joining&nbsp;&nbsp;<a href='/joins/<%= join.id %>' data-method='delete'><button>Cancel</button></a>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <form action='/joins' method='post'>
+                    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+                    <input type='hidden' value='<%= e.id %>' name='event_id'>
+                    <input type='submit' value='Join'>
+                  </form>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+    <div class='add_event'>
+      <h4>Add Event</h4>
+      <form action='/events' method='post'>
+        <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+        <input type='hidden' name='event[user_id]' value='<%= session[:user_id] %>'>
+        <table>
+          <tr>
+            <td>Name:</td><td><input type='text' name='event[event_name]'></td>
+          </tr>
+          <tr>
+            <td>Date:</td><td><input type='date' name='event[event_date]'></td>
+          </tr>
+          <tr>
+            <td>Location:</td><td><input type='text' name='event[event_location]'></td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>
+              <select name='event[event_state]'>
+                <% @states.each do |state| %>
+                  <option value='<%= state.state_code %>'><%= state.state_name %></option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan='2' align='right'><input type='submit' value='Add Event'></td>
+          </tr>
+          <% if flash[:error] %>
+            <tr>
+              <td colspan='2'><span><%= flash[:error] %></td>
+            </tr>
+          <% end %>
+          <% if flash[:errors] %>
+            <tr>
+              <td colspan='2'>
+                <% flash[:errors].each do |key, value| %>
+                  <span><%= key %>: <%= value[0] %></span><br>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>

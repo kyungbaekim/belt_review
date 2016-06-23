@@ -1,0 +1,92 @@
+.wrapper{
+  width: 100%;
+}
+.main{
+  width: 70%;
+  margin: 0px auto;
+}
+.register, .login{
+  display: inline-block;
+}
+.register{
+  width: 46%;
+  margin-right: 20px;
+}
+th, td{
+  padding: 5px;
+}
+th{
+  background-color: lightgray;
+}
+fieldset{
+  width: 85%;
+  margin: 0px auto;
+}
+span{
+  color: red;
+}
+.top{
+  width: 100%;
+}
+.welcome, .menu{
+  display: inline-block;
+}
+.welcome{
+  width: 65%;
+}
+.menu{
+  width: 33%;
+  text-align: right;
+}
+p{
+  margin: 5px 0px;
+}
+h3{
+  margin: 10px 0px;
+}
+h4{
+  margin: 10px 0px;
+}
+.within_state, .other_states, .add_event{
+  width: 100%;
+  margin-bottom: 30px;
+  // border: 1px solid silver;
+}
+.within_state table, .within_state tr, .within_state th, .within_state td{
+  border: 1px solid silver;
+}
+.other_states table, .other_states tr, .other_states th, .other_states td{
+  border: 1px solid silver;
+}
+.event_info table, .event_info tr, .event_info th, .event_info td{
+  border: 1px solid silver;
+}
+.within_state table, .other_states table, .event_info table{
+  border-collapse: collapse;
+}
+.event_info, .discussion{
+  display: inline-block;
+  width: 47%;
+  vertical-align: top;
+}
+.event_info{
+  margin-right: 20px;
+}
+textarea{
+  width: 98%;
+}
+.comment{
+  height: 400px;
+  padding: 10px;
+  border: 1px solid silver;
+  margin-bottom: 20px;
+  overflow-y: auto;
+}
+hr{
+  width: 100%;
+  margin-bottom: 15px;
+}
+hr.style1 {
+	background-color: #fff;
+	border-top: 2px dashed #8c8b8b;
+}

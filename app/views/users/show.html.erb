@@ -1,0 +1,60 @@
+<div class='wrapper'>
+  <div class='main'>
+    <div class='top'>
+      <div class='welcome'>
+        <h1>Welcome, <%= session[:user_name] %>!</h1>
+      </div>
+      <div class='menu'>
+        <a href='/events'>Event Dashboard</a>&nbsp;&nbsp;
+        <a href='/sessions' data-method='delete'>Logout</a>
+      </div>
+    </div>
+    <div class='edit'>
+      <h3>Edit Your Profile</h3>
+      <form action='/users/:id' method='post'>
+        <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+        <input type='hidden' name='_method' value='patch'>
+        <table>
+          <tr>
+            <td>First Name:</td><td><input type='text' name='user[first_name]' value='<%= @user.first_name %>'></td>
+          </tr>
+          <tr>
+            <td>Last Name:</td><td><input type='text' name='user[last_name]' value='<%= @user.last_name %>'></td>
+          </tr>
+          <tr>
+            <td>Email:</td><td><input type='text' name='user[email]' value='<%= @user.email %>'></td>
+          </tr>
+          <tr>
+            <td>Location:</td><td><input type='text' name='user[location]' value='<%= @user.location %>'></td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>
+              <select name='user[state]'>
+                <% @states.each do |state| %>
+                  <% if state.state_code == @user.state %>
+                    <option selected value='<%= state.state_code %>'><%= state.state_name %></option>
+                  <% else %>
+                    <option value='<%= state.state_code %>'><%= state.state_name %></option>
+                  <% end %>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan='2' align='right'><input type='submit' value='Update Records'</td>
+          </tr>
+          <% if flash[:errors] %>
+            <tr>
+              <td colspan='2'>
+                <% flash[:errors].each do |key, value| %>
+                  <span><%= key %>: <%= value[0] %></span><br>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
